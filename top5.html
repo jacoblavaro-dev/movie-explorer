@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Top 5 Movies</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 Top 5 Most Searched Movies</h1>
+    <ul id="top5"></ul>
+  </div>
+  <script>
+    fetch('api/top5.php')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('top5').innerHTML = data.map(m =>
+          `<li><img src="${m.poster_url}" width="100"> ${m.title} (${m.search_count} searches)</li>`
+        ).join('');
+      });
+  </script>
+</body>
+</html>
