@@ -1,7 +1,13 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require '../config/db.php';
 
-$apiKey = 'YOUR_TMDB_API_KEY';
+require '../config/db.php';
+
+$apiKey = 'bcb16046fef602fb03fb0f90a09967f8';
 $query = urlencode($_GET['query']);
 $apiUrl = "https://api.themoviedb.org/3/search/movie?api_key=$apiKey&query=$query";
 
@@ -29,7 +35,8 @@ foreach ($data['results'] as $movie) {
 
     $ratingStmt = $pdo->prepare("SELECT AVG(rating_value) AS avg_rating FROM ratings WHERE movie_id = ?");
     $ratingStmt->execute([$id]);
-    $avgRating = round($ratingStmt->fetch()['avg_rating'], 1);
+    $avgRaw = $ratingStmt->fetch()['avg_rating'];
+    $avgRating = $avgRaw !== null ? round($avgRaw, 1) : 'N/A';    
 
     $movies[] = [
         'id' => $id,

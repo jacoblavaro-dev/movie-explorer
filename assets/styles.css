@@ -1,43 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  background: #0f0f0f;
+  background: radial-gradient(ellipse at top, #0a0f1c, #0d0d0d);
   color: #fff;
   font-family: 'Segoe UI', sans-serif;
+  padding: 2rem;
   display: flex;
   justify-content: center;
-  padding: 40px;
 }
+
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 1000px;
+  text-align: center;
 }
+
+h1 {
+  font-size: 2.8rem;
+  color: #ffffff;
+  text-shadow: 0 0 10px #00ffee88;
+  margin-bottom: 1.5rem;
+}
+
+/* Search Bar */
 input[type="text"] {
   width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #1f1f1f;
-  color: #fff;
-  font-size: 18px;
-}
-.movie-card {
-  background: #1e1e1e;
-  margin: 20px 0;
-  padding: 20px;
+  padding: 15px 20px;
   border-radius: 12px;
-  box-shadow: 0 0 10px #00ffe0;
+  background: #1a1a1a;
+  border: 1px solid #00ffee44;
+  color: #fff;
+  font-size: 1.1rem;
+  outline: none;
+  transition: 0.3s;
 }
+input[type="text"]:focus {
+  border-color: #00ffee;
+  box-shadow: 0 0 10px #00ffee44;
+}
+
+/* Movie Results */
+#results {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.movie-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #00ffee33;
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 0 12px #00ffee11;
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease;
+}
+.movie-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 16px #00ffee55;
+}
+
 .movie-card img {
-  float: left;
-  width: 120px;
-  margin-right: 20px;
-  border-radius: 8px;
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.movie-card h3 {
+  color: #00ffee;
+  margin-bottom: 0.5rem;
+}
+
+.movie-card p {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+/* Rating Stars */
+.stars {
+  margin-top: 0.8rem;
 }
 .stars span {
-  font-size: 24px;
-  color: #aaa;
+  font-size: 1.5rem;
+  color: #555;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 .stars span:hover,
 .stars span:hover ~ span {
   color: gold;
 }
+
+/* Top 5 Page */
+ul#top5 {
+  list-style: none;
+  padding: 0;
+  margin-top: 2rem;
+}
+ul#top5 li {
+  background: #1a1a1a;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px #00ffee22;
+  display: flex;
+  align-items: center;
+}
+
+ul#top5 img {
+  width: 70px;
+  margin-right: 1rem;
+  border-radius: 8px;
+}
+
+body {
+  animation: fadeIn 0.7s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
