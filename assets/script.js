@@ -5,6 +5,7 @@ $('#search').on('input', function () {
   $.get(`api/search.php?query=${query}`, function (data) {
     const movies = JSON.parse(data);
     $('#results').html(movies.map(m => `
+        <a href="movie.html?id=${m.id}" class="movie-link">
       <div class="movie-card">
         <img src="${m.poster}" alt="">
         <h3>${m.title}</h3>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Details</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <style>
+    body {
+      background: rgba(0, 0, 0, 0.95);
+      overflow-y: auto;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      z-index: 9999;
+    }
+    .detail-box {
+      background: #1e1e1e;
+      border-radius: 16px;
+      padding: 2rem;
+      max-width: 900px;
+      width: 100%;
+      color: #fff;
+      overflow-y: auto;
+      max-height: 90vh;
+      box-shadow: 0 0 20px #00ffee55;
+      position: relative;
+    }
+    .detail-box img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      object-fit: cover;
+    }
+    .section {
+      margin-top: 2rem;
+    }
+    .similar-movies {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .similar-movies .movie-card {
+      width: 160px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .similar-movies img {
+      border-radius: 8px;
+      width: 100%;
+      height: auto;
+    }
+    .close-tip {
+      position: absolute;
+      bottom: 8px;
+      right: 16px;
+      font-size: 0.8rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay" id="overlay">
+    <div class="detail-box" id="movie-details">
+      <p>Loading movie details...</p>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const movieId = urlParams.get('id');
+    const apiKey = 'bcb16046fef602fb03fb0f90a09967f8';
+
+    if (!movieId) {
+      $('#movie-details').html('<p>❌ Movie ID not provided.</p>');
+      throw new Error("No movie ID in URL.");
+    }
+
+    $.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=credits`)
+      .done(function(movie) {
+        const poster = movie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+          : 'https://via.placeholder.com/500x750?text=No+Image';
+
+        const genres = movie.genres.map(g => g.name).join(', ');
+        const cast = movie.credits.cast.slice(0, 5).map(c => c.name).join(', ');
+
+        $('#movie-details').html(`
+          <img src="${poster}" alt="${movie.title} Poster">
+          <h2>${movie.title}</h2>
+          <p><strong>Release Date:</strong> ${movie.release_date}</p>
+          <p><strong>Genres:</strong> ${genres}</p>
+          <p><strong>Cast:</strong> ${cast}</p>
+          <p>${movie.overview}</p>
+          <div class="section" id="trailer-section"></div>
+          <div class="section" id="reviews-section"></div>
+          <div class="section" id="similar-section"></div>
+          <div class="close-tip">Click anywhere outside to close</div>
+        `);
+
+        // Trailer
+        $.get(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`, function(videos) {
+          const trailer = videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+          if (trailer) {
+            $('#trailer-section').html(`
+              <h3>🎥 Trailer</h3>
+              <iframe width="100%" height="315" src="https://www.youtube.com/embed/${trailer.key}" frameborder="0" allowfullscreen></iframe>
+            `);
+          }
+        });
+
+        // Reviews
+        $.get(`https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}`, function(data) {
+          const reviews = data.results.slice(0, 3).map(r => `
+            <div class="movie-card">
+              <p><strong>${r.author}</strong> says:</p>
+              <p>"${r.content.slice(0, 300)}..."</p>
+            </div>
+          `).join('');
+          if (reviews) {
+            $('#reviews-section').html(`<h3>💬 Reviews</h3>${reviews}`);
+          }
+        });
+
+        // Similar Movies
+        $.get(`https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}`, function(data) {
+          const similar = data.results.slice(0, 4).map(m => `
+            <div class="movie-card" onclick="location.href='movie.html?id=${m.id}'">
+              <img src="https://image.tmdb.org/t/p/w500${m.poster_path}" alt="${m.title}">
+              <h4>${m.title}</h4>
+            </div>
+          `).join('');
+          if (similar) {
+            $('#similar-section').html(`<h3>🔁 Similar Movies</h3><div class="similar-movies">${similar}</div>`);
+          }
+        });
+
+      })
+      .fail(() => {
+        $('#movie-details').html('<p>❌ Failed to load movie details.</p>');
+      });
+
+    $(document).on('click', '.stars span', function () {
+      const rating = $(this).data('rating');
+      const movie_id = $(this).data('id');
+      $.ajax({
+        url: 'api/rate.php',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ movie_id, rating }),
+        success: () => alert('Thanks for rating!'),
+        error: () => alert('Rating failed. Try again later.')
+      });
+    });
+
+    document.getElementById('overlay').addEventListener('click', function (e) {
+      if (e.target.id === 'overlay') {
+        window.history.back();
+      }
+    });
+  </script>
+</body>
+</html>
