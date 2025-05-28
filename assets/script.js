@@ -29,3 +29,7 @@ $(document).on('click', '.stars span', function () {
     success: () => alert('Thanks for rating!')
   });
 });
+
+$('#top5Btn').on('click', () => {
+  window.location.href = 'http://localhost/movie-explorer/top5.html'; 
+});

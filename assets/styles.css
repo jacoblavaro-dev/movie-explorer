@@ -22,7 +22,7 @@ body {
 h1 {
   font-size: 2.8rem;
   color: #ffffff;
-  text-shadow: 0 0 10px #00ffee88;
+  text-shadow: 0 0 10px #9000ff88;
   margin-bottom: 1.5rem;
 }
 
@@ -32,15 +32,15 @@ input[type="text"] {
   padding: 15px 20px;
   border-radius: 12px;
   background: #1a1a1a;
-  border: 1px solid #00ffee44;
+  border: 1px solid #aa00ff40;
   color: #fff;
   font-size: 1.1rem;
   outline: none;
   transition: 0.3s;
 }
 input[type="text"]:focus {
-  border-color: #00ffee;
-  box-shadow: 0 0 10px #00ffee44;
+  border-color: #9d00ff;
+  box-shadow: 0 0 10px #9d00ff44;
 }
 
 /* Movie Results */
@@ -53,7 +53,7 @@ input[type="text"]:focus {
 
 .movie-card {
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid #00ffee33;
+  border: 1px solid #8000ff33;
   border-radius: 18px;
   padding: 1rem;
   box-shadow: 0 0 12px #00ffee11;
@@ -72,7 +72,7 @@ input[type="text"]:focus {
 }
 
 .movie-card h3 {
-  color: #00ffee;
+  color: #8c00ff;
   margin-bottom: 0.5rem;
 }
 
@@ -128,4 +128,34 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+footer {
+  margin-top: 4rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+  border-top: 1px solid #333;
+}
 
+.nav-buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nav-buttons button {
+  background: #00ffee22;
+  border: 1px solid #00ffee55;
+  color: #00ffee;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.nav-buttons button:hover {
+  background: #00ffee44;
+  box-shadow: 0 0 10px #00ffee88;
+}

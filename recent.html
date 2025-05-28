@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🕓 Recent Searches</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🕓 Recently Searched Movies</h1>
+    <ul id="recent-list"></ul>
+  </div>
+  <script>
+    fetch('api/recent.php')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('recent-list').innerHTML = data.map(m =>
+          `<li><img src="${m.poster_url}" width="80"> <strong>${m.title}</strong> – Searched: ${m.search_count}x</li>`
+        ).join('');
+      });
+  </script>
+</body>
+</html>

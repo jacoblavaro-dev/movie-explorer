@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>⭐ Rated Movies</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>⭐ Top Rated Movies</h1>
+    <ul id="rated-list"></ul>
+  </div>
+  <script>
+    fetch('api/rated.php')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('rated-list').innerHTML = data.map(m =>
+          `<li><img src="${m.poster_url}" width="80"> <strong>${m.title}</strong> – Avg Rating: <em>${m.avg_rating}</em></li>`
+        ).join('');
+      });
+  </script>
+</body>
+</html>
