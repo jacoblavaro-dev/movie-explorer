@@ -2,106 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>CinemaSearch</title>
-  <link rel="stylesheet" href="assets/styles.css">
-  <style>
-    body {
-      background-color: #121212;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    h1, h2 {
-      text-align: center;
-    }
-    input#search {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 8px;
-      border: none;
-      margin: 1rem 0 2rem;
-      font-size: 1rem;
-    }
-    .nav-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-    }
-    .nav-buttons button {
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #00ffee;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    .nav-buttons button:hover {
-      background-color: #00d4c0;
-    }
-    .movie-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-    .movie-thumb {
-      background: #1e1e1e;
-      padding: 1rem;
-      border-radius: 12px;
-      text-align: center;
-      color: #fff;
-      box-shadow: 0 0 10px #00ffee22;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .movie-thumb:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 14px #00ffee66;
-    }
-    .movie-thumb img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-    .movie-card {
-      background: #1e1e1e;
-      padding: 1rem;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-      color: #fff;
-      text-decoration: none;
-      display: block;
-    }
-    .movie-card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 0.75rem;
-    }
-    .movie-card h3 {
-      margin: 0.5rem 0;
-    }
-    .stars span {
-      color: #aaa;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    .stars span:hover,
-    .stars span:hover ~ span {
-      color: #ffd700;
-    }
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      color: #888;
-      font-size: 0.9rem;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CinemaSearch 🎬</title>
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
   <div class="container">
@@ -109,14 +12,10 @@
     <input type="text" id="search" placeholder="Search for a movie..." />
 
     <div class="nav-buttons">
-      <button onclick="window.location.href='top5.html'" id="top5Btn">🔥 Top 5 Searched</button>
-      <button onclick="window.location.href='rated.html'">⭐ Rated Movies</button>
-      <button onclick="window.location.href='recent.html'">🕓 Recent Searches</button>
+      <button onclick="window.location.href='pages/top5.html'" id="top5Btn">🔥 Top 5 Searched</button>
+      <button onclick="window.location.href='pages/rated.html'">⭐ Rated Movies</button>
+      <button onclick="window.location.href='pages/recent.html'">🕓 Recent Searches</button>
     </div>
-
-    <footer>
-      Made with 💻 by Carl Jacob Lavaro, Kathleen Sison, Jofrey Acosta, Reynalyn de Guzman, and Angelo Martinez
-    </footer>
 
     <div id="results"></div>
 
@@ -126,68 +25,7 @@
     </div>
   </div>
 
-
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    // Search input
-    $('#search').on('input', function () {
-      const query = $(this).val().trim();
-      if (query.length < 2) return;
-
-      $.get(`api/search.php?query=${encodeURIComponent(query)}`, function (data) {
-        try {
-          const movies = JSON.parse(data);
-          $('#results').html(movies.map(m => `
-            <a href="movie.html?id=${m.id}" class="movie-link">
-              <div class="movie-card">
-                <img src="${m.poster}" alt="">
-                <h3>${m.title}</h3>
-                <p>${m.overview}</p>
-                <p><strong>Release:</strong> ${m.release_date}</p>
-                <p>⭐ Avg Rating: ${m.average_rating}</p>
-                <div class="stars">
-                  ${[1, 2, 3, 4, 5].map(i => `<span data-id="${m.id}" data-rating="${i}">★</span>`).join('')}
-                </div>
-              </div>
-            </a>
-          `).join(''));
-        } catch (e) {
-          $('#results').html('<p>Failed to load results.</p>');
-          console.error('JSON parsing failed', e);
-        }
-      });
-    });
-
-    // Star rating handler
-    $(document).on('click', '.stars span', function () {
-      const rating = $(this).data('rating');
-      const movie_id = $(this).data('id');
-
-      $.ajax({
-        url: 'api/rate.php',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({ movie_id, rating }),
-        success: () => alert('Thanks for rating!')
-      });
-    });
-
-    // Popular movies from TMDb
-    const apiKey = 'bcb16046fef602fb03fb0f90a09967f8';
-    $.get(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`, function (data) {
-      const movies = data.results.slice(0, 8);
-      $('#popular-movies').html(movies.map(m => `
-        <div class="movie-thumb" onclick="window.location.href='movie.html?id=${m.id}'">
-          <img src="https://image.tmdb.org/t/p/w500${m.poster_path}" alt="${m.title}" />
-          <h4>${m.title}</h4>
-        </div>
-      `).join(''));
-    });
-
-    // Optional redirect for localhost dev
-    $('#top5Btn').on('click', () => {
-      window.location.href = 'http://localhost/movie-explorer/top5.html';
-    });
-  </script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>

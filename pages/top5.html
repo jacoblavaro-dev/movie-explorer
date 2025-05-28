@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔥 Top 5 Movies</title>
-  <link rel="stylesheet" href="assets/styles.css">
+  <title>🔥 Top 5 Movies - CinemaSearch</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
   <div class="container">
-    <a href="index.html" class="back-button">← Back to Home</a>
+    <a href="../index.html" class="back-button">← Back to Search</a>
     <h1>🔥 Top 5 Most Searched Movies</h1>
     <ul class="list-style" id="top5"></ul>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $.get('api/top5.php')
+    $.get('../api/top5.php')
       .done(function(data) {
         if (!data.length) {
           $('#top5').html('<li>No searched movies yet</li>');
@@ -24,12 +24,14 @@
         
         $('#top5').html(data.map(m =>
           `<li>
-            <img src="${m.poster_url}" alt="${m.title}" onerror="this.src='https://via.placeholder.com/500x750.png?text=No+Poster'" width="100">
-            <div>
-              <strong>${m.title}</strong>
-              <p>Searched <em>${m.search_count}</em> times</p>
-              <p>Average Rating: <em>${m.avg_rating}</em></p>
-            </div>
+            <a href="movie.html?id=${m.id}" class="movie-link">
+              <img src="${m.poster_url}" alt="${m.title}" onerror="this.src='https://via.placeholder.com/500x750.png?text=No+Poster'" width="100">
+              <div>
+                <strong>${m.title}</strong>
+                <p>Searched <em>${m.search_count}</em> times</p>
+                <p>Average Rating: <em>${m.avg_rating}</em></p>
+              </div>
+            </a>
           </li>`
         ).join(''));
       })
@@ -38,4 +40,4 @@
       });
   </script>
 </body>
-</html>
+</html> 
