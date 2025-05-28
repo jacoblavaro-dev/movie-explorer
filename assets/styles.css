@@ -88,13 +88,13 @@ input[type="text"]:focus {
 }
 .stars span {
   font-size: 1.5rem;
-  color: #555;
+  color: #f3bf00;
   cursor: pointer;
   transition: color 0.2s ease;
 }
-.stars span:hover,
+
 .stars span:hover ~ span {
-  color: gold;
+  color: #555;
 }
 
 .list-style {
