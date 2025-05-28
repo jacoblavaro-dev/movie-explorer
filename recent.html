@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🕓 Recent Searches</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-button">← Back to Home</a>
+    <h1>🕓 Recently Searched Movies</h1>
+    <ul class="list-style" id="recent-list"></ul>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $.get('api/recent.php')
+      .done(function(data) {
+        if (!data.length) {
+          $('#recent-list').html('<li>No recent searches yet</li>');
+          return;
+        }
+        
+        $('#recent-list').html(data.map(m =>
+          `<li>
+            <img src="${m.poster_url}" alt="${m.title}" onerror="this.src='https://via.placeholder.com/500x750.png?text=No+Poster'" width="100">
+            <div>
+              <strong>${m.title}</strong>
+              <p>Searched <em>${m.search_count}</em> times</p>
+              <p>Average Rating: <em>${m.avg_rating}</em></p>
+            </div>
+          </li>`
+        ).join(''));
+      })
+      .fail(function() {
+        $('#recent-list').html('<li class="error">Failed to load recent searches</li>');
+      });
+  </script>
+</body>
+</html>
