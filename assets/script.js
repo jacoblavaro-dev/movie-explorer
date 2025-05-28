@@ -12,7 +12,7 @@ $('#search').on('input', function () {
         <p><strong>Release:</strong> ${m.release_date}</p>
         <p>⭐ Avg Rating: ${m.average_rating}</p>
         <div class="stars">
-          ${[1,2,3,4,5].map(i => `<span data-id="${m.id}" data-rating="${i}">★</span>`).join('')}
+          ${[1, 2, 3, 4, 5].map(i => `<span data-id="${m.id}" data-rating="${i}">★</span>`).join('')}
         </div>
       </div>
     `).join(''));
@@ -29,6 +29,7 @@ $(document).on('click', '.stars span', function () {
     success: () => alert('Thanks for rating!')
   });
 });
+
 
 $('#top5Btn').on('click', () => {
   window.location.href = 'http://localhost/movie-explorer/top5.html'; 

@@ -97,13 +97,12 @@ input[type="text"]:focus {
   color: gold;
 }
 
-/* Top 5 Page */
-ul#top5 {
+.list-style {
   list-style: none;
   padding: 0;
   margin-top: 2rem;
 }
-ul#top5 li {
+.list-style li {
   background: #1a1a1a;
   margin: 1rem 0;
   padding: 1rem;
@@ -112,8 +111,7 @@ ul#top5 li {
   display: flex;
   align-items: center;
 }
-
-ul#top5 img {
+.list-style img {
   width: 70px;
   margin-right: 1rem;
   border-radius: 8px;
