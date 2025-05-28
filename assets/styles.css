@@ -88,7 +88,7 @@ input[type="text"]:focus {
 }
 .stars span {
   font-size: 1.5rem;
-  color: #f3bf00;
+  color: #000000;
   cursor: pointer;
   transition: color 0.2s ease;
 }

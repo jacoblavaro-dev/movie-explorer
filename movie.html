@@ -67,6 +67,25 @@
       font-size: 0.8rem;
       color: #999;
     }
+    .stars span {
+      color: #ffd700;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .stars span:hover ~ span {
+      color: #aaa;
+    }
+
+    .detail-box img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 12px;
+      margin: 0 auto 1rem;
+      display: block;
+      object-fit: cover;
+    }
   </style>
 </head>
 <body>
@@ -97,12 +116,18 @@
         const cast = movie.credits.cast.slice(0, 5).map(c => c.name).join(', ');
 
         $('#movie-details').html(`
-          <img src="${poster}" alt="${movie.title} Poster">
+          <img src="${poster}" alt="${movie.title} Poster" style="max-width: 300px; display: block; margin: 0 auto 1rem;" />
           <h2>${movie.title}</h2>
           <p><strong>Release Date:</strong> ${movie.release_date}</p>
           <p><strong>Genres:</strong> ${genres}</p>
           <p><strong>Cast:</strong> ${cast}</p>
           <p>${movie.overview}</p>
+          <div class="section">
+            <h3>⭐ Rate this Movie</h3>
+            <div class="stars" style="font-size: 1.8rem; cursor: pointer;">
+              ${[1, 2, 3, 4, 5].map(i => `<span data-id="${movie.id}" data-rating="${i}">★</span>`).join('')}
+            </div>
+          </div>          
           <div class="section" id="trailer-section"></div>
           <div class="section" id="reviews-section"></div>
           <div class="section" id="similar-section"></div>
